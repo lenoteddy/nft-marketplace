@@ -15,7 +15,8 @@
 }
 .btn-connect,
 .btn-network,
-.btn-create {
+.btn-create,
+.btn-mint {
 	min-width: 160px;
 	padding: 0.4rem 1rem;
 	border-radius: 1rem;
@@ -39,7 +40,16 @@
 	background-color: #1f1f1f;
 	color: #f4f4f4;
 }
+.btn-mint {
+	padding: 0.2rem 1rem;
+	border-radius: 2rem;
+	background-color: #1f1f1f;
+	color: #f4f4f4;
+	font-size: 0.8rem;
+}
 .btn-create:disabled,
-.btn-create[disabled] {
+.btn-create[disabled],
+.btn-mint:disabled,
+.btn-mint[disabled] {
 	opacity: 0.75;
 }

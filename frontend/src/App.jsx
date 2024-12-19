@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import StringHelper from "./helpers/StringHelper";
 import NFTFactoryHelper from "./helpers/NFTFactoryHelper";
+import NFTHelper from "./helpers/NFTHelper";
 
 function App() {
 	const correctNetwork = "0xaa36a7";
@@ -10,6 +11,8 @@ function App() {
 	const [tokenName, setTokenName] = useState("");
 	const [tokenSymbol, setTokenSymbol] = useState("");
 	const [loadingTx, setLoadingTx] = useState(false);
+	const [nfts, setNFTs] = useState([]);
+	const [noNftData, setNoNftData] = useState(false);
 
 	const connectWallet = async () => {
 		if (window.ethereum) {
@@ -53,18 +56,58 @@ function App() {
 		}
 	};
 
+	const fetchNFTs = useCallback(async () => {
+		const dataLength = await NFTFactoryHelper.getNFTLength();
+		if (Number(dataLength) === 0) {
+			setNoNftData(true);
+		} else {
+			setNFTs([]);
+			for (let i = dataLength; i > 0; i--) {
+				const nftAddress = await NFTFactoryHelper.getNFT(i - 1);
+				const nftName = await NFTHelper.getNFTName(nftAddress);
+				const nftSymbol = await NFTHelper.getNFTSymbol(nftAddress);
+				const nftBalance = await NFTHelper.getNFTBalance(nftAddress, account);
+				const data = {
+					nftAddress,
+					nftName,
+					nftSymbol,
+					nftBalance,
+				};
+				setNFTs((prevItems) => [...prevItems, data]);
+			}
+		}
+	}, [account]);
+
 	const createNFT = async (e) => {
 		e.preventDefault();
 		try {
 			setLoadingTx(true);
 			const tx = await NFTFactoryHelper.setCreateNFT(tokenUri, tokenName, tokenSymbol);
 			await tx.wait();
-			window.location.reload();
+			setLoadingTx(false);
+			fetchNFTs();
 		} catch (e) {
 			console.log(e);
 			setLoadingTx(false);
 		}
 	};
+
+	const mintNFT = async (address) => {
+		try {
+			setLoadingTx(true);
+			const tx = await NFTHelper.setMintNFT(address);
+			await tx.wait();
+			setLoadingTx(false);
+			fetchNFTs();
+		} catch (e) {
+			console.log(e);
+			setLoadingTx(false);
+		}
+	};
+
+	useEffect(() => {
+		if (account && network == correctNetwork) fetchNFTs();
+	}, [account, network, fetchNFTs]);
 
 	return (
 		<main className="container">
@@ -133,6 +176,34 @@ function App() {
 							</button>
 						</fieldset>
 					</form>
+					<fieldset className="mt-8 p-4 border-2 border-black">
+						<legend className="px-4 text-lg text-center font-bold">NFT List</legend>
+						{noNftData && <div className="text-center font-bold">No NFT list available!</div>}
+						{nfts.length > 0 && (
+							<div className="grid grid-cols-3 gap-4">
+								{nfts.map((val, idx) => {
+									return (
+										<div key={idx}>
+											<div className="block max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow break-all">
+												<h5 className="mb-2 text-xl font-bold tracking-tight text-gray-900">{`${val?.nftSymbol} - ${val?.nftName}`}</h5>
+												<p className="text-xs text-gray-700">
+													<span className="font-bold">address:</span>
+													<span className="pl-1">{val?.nftAddress}</span>
+												</p>
+												<p className="text-xs text-gray-700">
+													<span className="font-bold">balance:</span>
+													<span className="pl-1">{val?.nftBalance}</span>
+												</p>
+												<button type="button" className="mt-4 btn-mint" disabled={loadingTx} onClick={() => mintNFT(val?.nftAddress)}>
+													Mint NFT
+												</button>
+											</div>
+										</div>
+									);
+								})}
+							</div>
+						)}
+					</fieldset>
 				</div>
 			)}
 		</main>
