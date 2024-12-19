@@ -1,35 +1,67 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import StringHelper from "./helpers/StringHelper";
 
 function App() {
-  const [count, setCount] = useState(0)
+	const correctNetwork = "0xaa36a7";
+	const [network, setNetwork] = useState("");
+	const [account, setAccount] = useState("");
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+	const connectWallet = async () => {
+		if (window.ethereum) {
+			window.ethereum
+				.request({ method: "eth_requestAccounts" })
+				.then(async (accounts) => {
+					if (accounts && accounts.length > 0) {
+						setAccount(accounts[0]);
+						if (window.ethereum) {
+							window.ethereum.request({ method: "eth_chainId" }).then((val) => {
+								setNetwork(val);
+							});
+						}
+					} else {
+						alert("No accounts found");
+					}
+				})
+				.catch((error) => {
+					alert(error?.message);
+				});
+		} else {
+			alert("MetaMask is not installed");
+		}
+	};
+
+	const switchNetwork = async () => {
+		if (window.ethereum) {
+			await window.ethereum
+				.request({
+					method: "wallet_switchEthereumChain",
+					params: [{ chainId: "0xaa36a7" }],
+				})
+				.then(() => {
+					setNetwork(correctNetwork);
+				})
+				.catch((error) => {
+					alert(error?.message);
+				});
+		} else {
+			alert("MetaMask is not installed");
+		}
+	};
+
+	return (
+		<main className="container">
+			<div className="flex justify-center items-center gap-x-2 pb-4">
+				<button className="btn-connect" onClick={() => connectWallet()}>
+					{account ? StringHelper.shortenHex(account) : "Connect Wallet"}
+				</button>
+				{account && network !== correctNetwork && (
+					<button className="btn-network" onClick={switchNetwork}>
+						Switch Network
+					</button>
+				)}
+			</div>
+		</main>
+	);
 }
 
-export default App
+export default App;

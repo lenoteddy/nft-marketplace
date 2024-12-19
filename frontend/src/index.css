@@ -1,3 +1,26 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.container {
+	width: 100%;
+	max-width: 1024px;
+	margin: 0 auto;
+	padding: 1rem;
+}
+.btn-connect,
+.btn-network {
+	min-width: 160px;
+	padding: 0.4rem 1rem;
+	border-radius: 1rem;
+	font-weight: bold;
+	border: 0.1rem solid #000000;
+}
+.btn-connect {
+	background-color: #1f1f1f;
+	color: #f4f4f4;
+}
+.btn-network {
+	background-color: #c4c4c4;
+	color: #000000;
+}
