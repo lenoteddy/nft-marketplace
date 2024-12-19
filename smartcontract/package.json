@@ -7,7 +7,8 @@
     "test": "npx hardhat test",
     "coverage": "npx hardhat coverage",
     "deploy:sepolia": "npx hardhat run './scripts/01_deploy_nft_factory.js' --network sepolia",
-    "verify:sepolia": "npx hardhat verify --network sepolia"
+    "verify:sepolia": "npx hardhat verify --network sepolia",
+    "verify:args:sepolia": "npx hardhat verify --network sepolia --constructor-args './scripts/verify_nft_argument.js'"
   },
   "author": "",
   "license": "ISC",
