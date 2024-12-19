@@ -221,11 +221,11 @@ function App() {
 						<legend className="px-4 text-lg text-center font-bold">NFT List</legend>
 						{noNftData && <div className="text-center font-bold">No NFT list available!</div>}
 						{nfts.length > 0 && (
-							<div className="grid grid-cols-3 gap-4">
+							<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
 								{nfts.map((val, idx) => {
 									return (
 										<div key={idx}>
-											<div className="block max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow break-all">
+											<div className="block w-full p-4 bg-white border border-gray-200 rounded-lg shadow break-all">
 												<h5 className="mb-2 text-xl font-bold tracking-tight text-gray-900">{`${val?.nftSymbol} - ${val?.nftName}`}</h5>
 												<p className="text-xs text-gray-700">
 													<span className="font-bold">address:</span>
