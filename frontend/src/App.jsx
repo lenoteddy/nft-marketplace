@@ -113,6 +113,16 @@ function App() {
 
 	return (
 		<main className="container">
+			<div className={"overlay " + (loadingTx ? "active" : "")}>
+				<div className="loading-box">
+					<div className="bg-white">
+						<div className="-mt-2 mb-1 text-center font-bold">Loading...</div>
+						<div className="loadingbar">
+							<span className="w-full"></span>
+						</div>
+					</div>
+				</div>
+			</div>
 			<div className="flex justify-center items-center gap-x-2 pb-4">
 				<button className={"btn-connect " + (account ? "active" : "")} onClick={connectWallet}>
 					{account ? StringHelper.shortenHex(account) : "Connect Wallet"}
