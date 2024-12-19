@@ -8,8 +8,14 @@
 	margin: 0 auto;
 	padding: 1rem;
 }
+.nft-creator-form-container {
+	width: 100%;
+	max-width: 512px;
+	margin: 0 auto;
+}
 .btn-connect,
-.btn-network {
+.btn-network,
+.btn-create {
 	min-width: 160px;
 	padding: 0.4rem 1rem;
 	border-radius: 1rem;
@@ -20,7 +26,20 @@
 	background-color: #1f1f1f;
 	color: #f4f4f4;
 }
+.btn-connect.active {
+	cursor: default;
+}
 .btn-network {
 	background-color: #c4c4c4;
 	color: #000000;
+}
+.btn-create {
+	width: 100%;
+	border-radius: 2rem;
+	background-color: #1f1f1f;
+	color: #f4f4f4;
+}
+.btn-create:disabled,
+.btn-create[disabled] {
+	opacity: 0.75;
 }
