@@ -22,9 +22,9 @@ describe("NFT", function () {
 		});
 	});
 
-	describe("getNFTLength()", function () {
+	describe("nftLength()", function () {
 		it("Should get amount of NFT contract created", async function () {
-			await expect(await contract.getNFTLength()).to.be.equal(0);
+			await expect(await contract.nftLength()).to.be.equal(0);
 		});
 	});
 

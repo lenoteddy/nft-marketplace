@@ -15,7 +15,7 @@ contract NFTFactory {
         nft.push(_nft);
     }
 
-    function getNFTLength() public view returns (uint256) {
+    function nftLength() public view returns (uint256) {
         return nft.length;
     }
 }
