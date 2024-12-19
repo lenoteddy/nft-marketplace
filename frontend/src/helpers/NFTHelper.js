@@ -1,3 +1,4 @@
+import Swal from "sweetalert2";
 import { ethers } from "ethers";
 import abi from "../constants/abi/nft.json";
 
@@ -8,7 +9,11 @@ const getNFTName = async (address) => {
 		const contract = new ethers.Contract(address, abi, provider);
 		return await contract.name();
 	} catch (e) {
-		console.log(e);
+		Swal.fire({
+			title: "Error!",
+			text: e.message,
+			icon: "error",
+		});
 	}
 };
 
@@ -17,7 +22,11 @@ const getNFTSymbol = async (address) => {
 		const contract = new ethers.Contract(address, abi, provider);
 		return await contract.symbol();
 	} catch (e) {
-		console.log(e);
+		Swal.fire({
+			title: "Error!",
+			text: e.message,
+			icon: "error",
+		});
 	}
 };
 
@@ -26,7 +35,11 @@ const getNFTBalance = async (address, user) => {
 		const contract = new ethers.Contract(address, abi, provider);
 		return Number(await contract.balanceOf(user));
 	} catch (e) {
-		console.log(e);
+		Swal.fire({
+			title: "Error!",
+			text: e.message,
+			icon: "error",
+		});
 	}
 };
 
@@ -40,8 +53,11 @@ const setMintNFT = async (address) => {
 			return await contract.mint();
 		}
 	} catch (e) {
-		console.log(e);
-		alert(e.message);
+		Swal.fire({
+			title: "Error!",
+			text: e.message,
+			icon: "error",
+		});
 	}
 };
 

@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
+import Swal from "sweetalert2";
 import StringHelper from "./helpers/StringHelper";
 import NFTFactoryHelper from "./helpers/NFTFactoryHelper";
 import NFTHelper from "./helpers/NFTHelper";
@@ -27,14 +28,26 @@ function App() {
 							});
 						}
 					} else {
-						alert("No accounts found");
+						Swal.fire({
+							title: "Error!",
+							text: "No accounts found",
+							icon: "error",
+						});
 					}
 				})
 				.catch((error) => {
-					alert(error?.message);
+					Swal.fire({
+						title: "Error!",
+						text: error?.message,
+						icon: "error",
+					});
 				});
 		} else {
-			alert("MetaMask is not installed");
+			Swal.fire({
+				title: "Error!",
+				text: "MetaMask is not installed",
+				icon: "error",
+			});
 		}
 	};
 
@@ -49,10 +62,18 @@ function App() {
 					setNetwork(correctNetwork);
 				})
 				.catch((error) => {
-					alert(error?.message);
+					Swal.fire({
+						title: "Error!",
+						text: error?.message,
+						icon: "error",
+					});
 				});
 		} else {
-			alert("MetaMask is not installed");
+			Swal.fire({
+				title: "Error!",
+				text: "MetaMask is not installed",
+				icon: "error",
+			});
 		}
 	};
 
@@ -84,7 +105,11 @@ function App() {
 			setLoadingTx(true);
 			const tx = await NFTFactoryHelper.setCreateNFT(tokenUri, tokenName, tokenSymbol);
 			await tx.wait();
-			alert("NFT has been created successfully.");
+			Swal.fire({
+				title: "Success!",
+				text: "NFT has been created successfully.",
+				icon: "success",
+			});
 			setLoadingTx(false);
 			fetchNFTs();
 		} catch (e) {
@@ -98,7 +123,11 @@ function App() {
 			setLoadingTx(true);
 			const tx = await NFTHelper.setMintNFT(address);
 			await tx.wait();
-			alert("NFT has been minted successfully.");
+			Swal.fire({
+				title: "Success!",
+				text: "NFT has been minted successfully.",
+				icon: "success",
+			});
 			setLoadingTx(false);
 			fetchNFTs();
 		} catch (e) {

@@ -1,3 +1,4 @@
+import Swal from "sweetalert2";
 import { ethers } from "ethers";
 import abi from "../constants/abi/nftFactory.json";
 
@@ -10,7 +11,11 @@ const getNFT = async (index) => {
 		const nft = await contract.nft(index);
 		return nft;
 	} catch (e) {
-		console.log(e);
+		Swal.fire({
+			title: "Error!",
+			text: e.message,
+			icon: "error",
+		});
 	}
 };
 
@@ -19,7 +24,11 @@ const getNFTLength = async () => {
 		const nftLength = await contract.nftLength();
 		return nftLength;
 	} catch (e) {
-		console.log(e);
+		Swal.fire({
+			title: "Error!",
+			text: e.message,
+			icon: "error",
+		});
 	}
 };
 
@@ -33,8 +42,11 @@ const setCreateNFT = async (tokenUri, tokenName, tokenSymbol) => {
 			return await contract.createNFT(tokenUri, tokenName, tokenSymbol);
 		}
 	} catch (e) {
-		console.log(e);
-		alert(e.message);
+		Swal.fire({
+			title: "Error!",
+			text: e.message,
+			icon: "error",
+		});
 	}
 };
 
