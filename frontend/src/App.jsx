@@ -84,6 +84,7 @@ function App() {
 			setLoadingTx(true);
 			const tx = await NFTFactoryHelper.setCreateNFT(tokenUri, tokenName, tokenSymbol);
 			await tx.wait();
+			alert("NFT has been created successfully.");
 			setLoadingTx(false);
 			fetchNFTs();
 		} catch (e) {
@@ -97,6 +98,7 @@ function App() {
 			setLoadingTx(true);
 			const tx = await NFTHelper.setMintNFT(address);
 			await tx.wait();
+			alert("NFT has been minted successfully.");
 			setLoadingTx(false);
 			fetchNFTs();
 		} catch (e) {
